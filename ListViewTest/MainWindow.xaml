@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:ListViewTest"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:local1="clr-namespace:ListViewTest.Properties"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="610"
-        Closing="Window_Closing">
+        Title="MainWindow" Height="450" Width="610" local:WindowCloser.EnableWindowClosing="True"
+    >
 
 
     <Window.DataContext>

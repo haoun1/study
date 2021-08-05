@@ -38,38 +38,54 @@ namespace ListViewTest
 
         }
 
+        //private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    if(DataContext is IcloseWindows vm)
+        //    {
+        //        vm.Close += () =>
+        //        {
+        //            this.Close();
+        //        };
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
+        //        Closing += (s1, e1) =>
+        //         {
+        //             e1.Cancel = !vm.CanClose();
+        //         };
+        //    }
+        //}
 
-            StudentList SaveItems = ListViewModel.StaticItems;
-            XmlDocument xml = new XmlDocument();
-            XmlNode peoples = xml.CreateElement("peoples");
 
-            for (int i = 0; i < 5; i++)
-            {
-                XmlNode people = xml.CreateElement("people");
-                XmlAttribute name = xml.CreateAttribute("name");
-                XmlAttribute phone = xml.CreateAttribute("phone");
-                XmlAttribute age = xml.CreateAttribute("age");
-                XmlAttribute gender = xml.CreateAttribute("gender");
+        //private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        //{
 
-                name.Value = "이하운";
-                phone.Value = "leehaoun";
-                age.Value = "11";
-                gender.Value = "남자";
+        //    StudentList SaveItems = ListViewModel.StaticItems;
+        //    XmlDocument xml = new XmlDocument();
+        //    XmlNode peoples = xml.CreateElement("peoples");
 
-                people.Attributes.Append(name);
-                people.Attributes.Append(phone);
-                people.Attributes.Append(age);
-                people.Attributes.Append(gender);
+        //    for (int i = 0; i < 5; i++)
+        //    {
+        //        XmlNode people = xml.CreateElement("people");
+        //        XmlAttribute name = xml.CreateAttribute("name");
+        //        XmlAttribute phone = xml.CreateAttribute("phone");
+        //        XmlAttribute age = xml.CreateAttribute("age");
+        //        XmlAttribute gender = xml.CreateAttribute("gender");
 
-                peoples.AppendChild(people);
-            }
-            xml.AppendChild(peoples);
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + @"\items.xml";
-            xml.Save(path);
+        //        name.Value = "이하운";
+        //        phone.Value = "leehaoun";
+        //        age.Value = "11";
+        //        gender.Value = "남자";
 
-        }
+        //        people.Attributes.Append(name);
+        //        people.Attributes.Append(phone);
+        //        people.Attributes.Append(age);
+        //        people.Attributes.Append(gender);
+
+        //        peoples.AppendChild(people);
+        //    }
+        //    xml.AppendChild(peoples);
+        //    string path = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + @"\items.xml";
+        //    xml.Save(path);
+
+        //}
     }
 }
