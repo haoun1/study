@@ -1,0 +1,36 @@
+﻿<Window x:Class="ListViewTest.Dialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ListViewTest"
+        mc:Ignorable="d"
+        Title="Dialog" Height="80" Width="510" WindowStyle="None">
+
+    <Window.DataContext>
+        <local:ListViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="50"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Name:" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBox  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Width="50" Text="{Binding InName}"/>
+        <Label Content="Age:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2"/>
+        <TextBox  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" Width="50" Text="{Binding InAge}"/>
+        <Label Content="Phone:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="4"/>
+        <TextBox  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="5" Width="100" Text="{Binding InPhone}"/>
+        <Label Content="Gender:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="6"/>
+        <TextBox  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="7" Width="50" Text="{Binding InGender}"/>
+        <Button Content="완료" Command="{Binding Submit}" Grid.Column="8" Background='Aqua' Click="Btn_click" HorizontalAlignment="Center"/>
+    </Grid>
+</Window>
