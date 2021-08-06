@@ -6,14 +6,19 @@
         xmlns:local="clr-namespace:ListViewTest"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:local1="clr-namespace:ListViewTest.Properties"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="610" local:WindowCloser.EnableWindowClosing="True"
-    >
+        Title="MainWindow" Height="450" Width="610" 
+        local:WindowCloser.EnableWindowClosing="True"
+        >
 
-
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+        <i:InvokeCommandAction Command="{Binding save_xml}"></i:InvokeCommandAction>
+    </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
     <Window.DataContext>
         <local:ListViewModel/>
     </Window.DataContext>
-
 
     <Grid>
         <Grid.RowDefinitions>
@@ -23,13 +28,14 @@
         </Grid.RowDefinitions>
         <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="ListView DataBinding Example" Padding="10"/>
 
-        <ListView ItemsSource="{Binding Items}" SelectedIndex="{Binding Index}" SelectedItem="{Binding Selected}" Name="uiLv_Main" Grid.Row="1" Grid.Column="0" Margin="10" Background="AliceBlue">
+        <ListView ItemsSource="{Binding Items}" SelectedIndex="{Binding Index}" SelectedItem="{Binding Selected}" Name="list_view" Grid.Row="1" Grid.Column="0" Margin="10" Background="AliceBlue">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction 
                         Command="{Binding ListItemClick}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
+            
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" Width="100" DisplayMemberBinding="{Binding Name}"/>
@@ -50,20 +56,27 @@
                     <GridViewColumn Header="Delete" Width="50">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="삭제"/>
+                                <Button  Width="50" Height="50" DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext}" Content="삭제" Command="{Binding DeleteList}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                  
-               </GridView>
+                </GridView>
             </ListView.View>
+            <ListView.Resources>
+                <Style TargetType="ListViewItem">
+                    <Style.Triggers>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter Property="IsSelected" Value="True"/>
+                        </Trigger>
+                    </Style.Triggers>
+                    <EventSetter Event="PreviewGotKeyboardFocus" Handler="SelectCurrentItem"/>
+                </Style>
+            </ListView.Resources>
         </ListView>
         <Button Content="New" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Bottom" Width="75" Command="{Binding commandNew}" Margin="0,0,80,0" Style="{DynamicResource RedButton}"/>
         <Button Content="Add" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Bottom" Width="75" Command="{Binding commandAdd}" Style="{DynamicResource BlueButton}"/>
-        <Button Width="30" Height="30" Command="{Binding CloseCommand}" Content="EXIT"/>
+        <Button Width="75" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Bottom" Command="{Binding xml}" Content="Load XML" Margin="0,5,160,0" Style="{DynamicResource GreenButton}" />
+        <Button Width="75" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Bottom" Command="{Binding CloseCommand}" Content="EXIT" Margin="0,0,240,0" Style="{DynamicResource GreenButton}" />
     </Grid>
-    
-    
-    
-    
+
 </Window>

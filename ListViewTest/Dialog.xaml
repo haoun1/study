@@ -5,32 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ListViewTest"
         mc:Ignorable="d"
-        Title="Dialog" Height="80" Width="510" WindowStyle="None">
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:local1="clr-namespace:ListViewTest.Properties"
+        Title="Dialog" Height="200" Width="180" WindowStyle="ToolWindow">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding Submit}"></i:InvokeCommandAction>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
-    <Window.DataContext>
-        <local:ListViewModel/>
-    </Window.DataContext>
-
-    <Grid>
+    <Grid DataContext="{Binding Selected}" Margin="0,-1,0,1">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="50"/>
+
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
         <Label Content="Name:" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBox  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Width="50" Text="{Binding InName}"/>
-        <Label Content="Age:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2"/>
-        <TextBox  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" Width="50" Text="{Binding InAge}"/>
-        <Label Content="Phone:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="4"/>
-        <TextBox  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="5" Width="100" Text="{Binding InPhone}"/>
-        <Label Content="Gender:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="6"/>
-        <TextBox  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="7" Width="50" Text="{Binding InGender}"/>
-        <Button Content="완료" Command="{Binding Submit}" Grid.Column="8" Background='Aqua' Click="Btn_click" HorizontalAlignment="Center"/>
+        <TextBox  DataContext="{Binding Selected}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Width="50" Text="{Binding Name}"/>
+        <Label Content="Age:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
+        <TextBox  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Width="50" Text="{Binding InAge}" Grid.Row="1"/>
+        <Label Content="Phone:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2"/>
+        <TextBox  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Width="100" Text="{Binding InPhone}" Grid.Row="2"/>
+        <Label Content="Gender:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3"/>
+        <RadioButton Grid.Row="3" Grid.Column="1" Margin="20,10,50,5" IsChecked="{Binding Man}">남</RadioButton>
+        <RadioButton Grid.Row="3" Grid.Column="1" Margin="60,10,10,5" IsChecked="{Binding Woman}">여</RadioButton>
+        <!--<TextBox  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Width="50" Text="{Binding InGender}" Grid.Row="3"/>-->
+        <Button Content="완료" Command="{Binding Submit}" Grid.Column="1" Background='Aqua' Click="Btn_click" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4"/>
     </Grid>
 </Window>

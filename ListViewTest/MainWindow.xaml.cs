@@ -38,54 +38,14 @@ namespace ListViewTest
 
         }
 
-        //private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    if(DataContext is IcloseWindows vm)
-        //    {
-        //        vm.Close += () =>
-        //        {
-        //            this.Close();
-        //        };
-
-        //        Closing += (s1, e1) =>
-        //         {
-        //             e1.Cancel = !vm.CanClose();
-        //         };
-        //    }
-        //}
 
 
-        //private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        //{
 
-        //    StudentList SaveItems = ListViewModel.StaticItems;
-        //    XmlDocument xml = new XmlDocument();
-        //    XmlNode peoples = xml.CreateElement("peoples");
+        private void SelectCurrentItem(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            ListViewItem item = (ListViewItem)sender;
+                 
+        }
 
-        //    for (int i = 0; i < 5; i++)
-        //    {
-        //        XmlNode people = xml.CreateElement("people");
-        //        XmlAttribute name = xml.CreateAttribute("name");
-        //        XmlAttribute phone = xml.CreateAttribute("phone");
-        //        XmlAttribute age = xml.CreateAttribute("age");
-        //        XmlAttribute gender = xml.CreateAttribute("gender");
-
-        //        name.Value = "이하운";
-        //        phone.Value = "leehaoun";
-        //        age.Value = "11";
-        //        gender.Value = "남자";
-
-        //        people.Attributes.Append(name);
-        //        people.Attributes.Append(phone);
-        //        people.Attributes.Append(age);
-        //        people.Attributes.Append(gender);
-
-        //        peoples.AppendChild(people);
-        //    }
-        //    xml.AppendChild(peoples);
-        //    string path = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + @"\items.xml";
-        //    xml.Save(path);
-
-        //}
     }
 }
