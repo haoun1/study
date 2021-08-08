@@ -16,9 +16,6 @@ namespace ListViewTest
     public class ListViewModel : INotifyPropertyChanged, IcloseWindows
     {
 
-
-
-
         private StudentList _Items;
         public StudentList Items
         {
@@ -32,13 +29,12 @@ namespace ListViewTest
             }
         }
 
-        private Student _Selected;
-        public Student Selected
+        private static Student _Selected;
+        public static Student Selected
         {
             set
             {
                 _Selected = value;
-                OnPropertyChanged("Selected");
             }
             get
             {
@@ -56,19 +52,6 @@ namespace ListViewTest
             get
             {
                 return _Index;
-            }
-        }
-
-        private static Student _returnstu;
-        public static Student returnstu
-        {
-            get
-            {
-                return _returnstu;
-            }
-            set
-            {
-                _returnstu = value;
             }
         }
 
@@ -123,8 +106,6 @@ namespace ListViewTest
             {
                 Dialog dialog = new Dialog();
                 dialog.ShowDialog();
-                Items[Index] = _returnstu;
-                OnPropertyChanged("Items");
             }
 
 
@@ -149,38 +130,9 @@ namespace ListViewTest
             }
         }
 
-        public ICommand Submit
-        {
-            get
-            {
-                return new RelayCommand(submit);
 
-            }
-        }
 
-        private void submit()
-        {
-            int tempAge = 0;
-            Student.eGender tempGen=Student.eGender.남자;
-            //if (InGender == true)
-            //    tempGen = Student.eGender.남자;
-            //else if (InGender == false)
-            //    tempGen = Student.eGender.여자;
-            //else
-            //    tempGen = Student.eGender.남자;
 
-            try
-            {
-                tempAge = Convert.ToInt32(InAge);
-            }
-            catch (Exception)
-            {
-                tempAge = 0;
-            }
-
-            _returnstu = new Student { Name = InName, Age = tempAge, Phone = InPhone, Gender = tempGen };
-                OnPropertyChanged("returnstu");
-            }
         
         //버튼과 연결하여 종료시키는 릴레이커맨드
         private RelayCommand _closeCommand;
@@ -218,8 +170,10 @@ namespace ListViewTest
                         name.Value = Items[i].Name;
                         phone.Value = Items[i].Phone;
                         age.Value = Items[i].Age.ToString();
-                        gender.Value = Items[i].Gender.ToString();
-
+                        if(Items[i].Gender == Student.eGender.남자)
+                         gender.Value = "남자";
+                        else if (Items[i].Gender == Student.eGender.여자)
+                         gender.Value = "여자";
                         people.Attributes.Append(name);
                         people.Attributes.Append(phone);
                         people.Attributes.Append(age);
@@ -232,7 +186,7 @@ namespace ListViewTest
                     xml.Save(path);
                 }
             }
-         catch(InvalidOperationException e)
+         catch(InvalidOperationException)
             {
              
             }

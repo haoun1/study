@@ -4,7 +4,7 @@
 winexe
 C#
 .cs
-C:\Users\Admin\source\repos\study\ListViewTest\obj\x64\Debug\
+C:\Users\Admin\source\repos\study\ListViewTest\obj\x86\Debug\
 ListViewTest
 none
 false
@@ -12,9 +12,9 @@ DEBUG;TRACE
 C:\Users\Admin\source\repos\study\ListViewTest\App.xaml
 3439310270
 
-91697267269
-19-1493460987
+10-60538150
+18-113300377
 Dialog.xaml;Dictionary1.xaml;MainWindow.xaml;
 
-False
+True
 

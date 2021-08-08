@@ -19,7 +19,7 @@ namespace ListViewTest
         }
         public void AddList()
         {
-            Add(new Student() { Name = "아이유", Age = 20, Phone = "1234-5678", Gender = Student.eGender.여자});
+            Add(new Student() { Name = "아이유", Age = 20, Phone = "1234-5678", Gender = Student.eGender.여자 });
         }
 
     }
@@ -34,11 +34,7 @@ namespace ListViewTest
 
         public string Name { get; set; }
         public int Age { get; set; }
-        public eGender Gender 
-        {
-            get;
-            set; 
-        }
+        public eGender Gender { get; set; }
         public string Phone { get; set; }
     }
 }
