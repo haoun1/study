@@ -6,25 +6,29 @@
         xmlns:local="clr-namespace:ListViewTest"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:local1="clr-namespace:ListViewTest.Properties"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="610" 
+        Title="MainWindow" Height="500" Width="1250" 
         >
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
-        <i:InvokeCommandAction Command="{Binding save_xml}"></i:InvokeCommandAction>
-    </i:EventTrigger>
+            <i:InvokeCommandAction Command="{Binding save_xml}"></i:InvokeCommandAction>
+        </i:EventTrigger>
     </i:Interaction.Triggers>
-    
+
     <Window.DataContext>
         <local:ListViewModel/>
     </Window.DataContext>
 
-    <Grid>
+    <Grid Margin="0,0,2,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="ListView DataBinding Example" Padding="10"/>
 
         <ListView ItemsSource="{Binding Items}" SelectedIndex="{Binding Index}" SelectedItem="{Binding Selected}" Name="list_view" Grid.Row="1" Grid.Column="0" Margin="10" Background="AliceBlue">
@@ -34,32 +38,35 @@
                         Command="{Binding ListItemClick}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            
             <ListView.View>
                 <GridView>
+                    <!-- Name, Age, Phone, Gender, Delete 5개의 컬럼-->
                     <GridViewColumn Header="Name" Width="100" DisplayMemberBinding="{Binding Name}"/>
                     <GridViewColumn Header="Age" Width="100" DisplayMemberBinding="{Binding Age}"/>
                     <GridViewColumn Header="PhoneNumber" Width="270" DisplayMemberBinding="{Binding Phone}"/>
                     <GridViewColumn Header="Gender" Width="50">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Source="/Resources/men.bmp" Width="30" Name="gender"/>
+                                <Image Width="30" Name="gender"/>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding Gender}" Value="여자">
                                         <Setter TargetName="gender" Property="Source" Value="/Resources/women.bmp"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Gender}" Value="남자">
+                                        <Setter TargetName="gender" Property="Source" Value="/Resources/men.bmp"/>
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Delete" Width="50">
+                    <GridViewColumn Header="Delete" Width="70">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button  Width="50" Height="50" DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext}" Content="삭제" Command="{Binding DeleteList}" />
+                                <Button  Width="50" Height="20" DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext}" Content="삭제" Command="{Binding DeleteList}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                </GridView>
+                </GridView> <!--컬럼 끝 --> 
             </ListView.View>
             <ListView.Resources>
                 <Style TargetType="ListViewItem">
@@ -75,6 +82,13 @@
         <Button Content="New" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Bottom" Width="75" Command="{Binding commandNew}" Margin="0,0,80,0" Style="{DynamicResource RedButton}"/>
         <Button Content="Add" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Bottom" Width="75" Command="{Binding commandAdd}" Style="{DynamicResource BlueButton}"/>
         <Button Width="75" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Bottom" Command="{Binding xml}" Content="Load XML" Margin="0,5,160,0" Style="{DynamicResource GreenButton}" />
+        <CheckBox Content="남" Grid.Column ="1" Grid.Row="1" Margin="40,80,530,300" Command="{Binding manfilter}" />
+        <CheckBox Content="여" Grid.Column ="1" Grid.Row="1" Margin="40,100,530,280" Command="{Binding womanfilter}"/>
+        <CheckBox Content="20세미만" Grid.Column ="1" Grid.Row="1" Margin="40,120,500,260" Command="{Binding childfilter}"/>
+        <CheckBox Content="20세이상" Grid.Column ="1" Grid.Row="1" Margin="40,140,500,240" Command="{Binding adultfilter}"/>
+        <CheckBox Content="이씨" Grid.Column ="1" Grid.Row="1" Margin="40,160,500,220" Command="{Binding leefilter}"/>
+        <CheckBox Content="김씨" Grid.Column ="1" Grid.Row="1" Margin="40,180,500,200" Command="{Binding kimfilter}"/>
+
     </Grid>
 
 </Window>

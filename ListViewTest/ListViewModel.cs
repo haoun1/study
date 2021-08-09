@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml;
@@ -14,9 +15,10 @@ using System.Xml;
 namespace ListViewTest
 {
 
+
     public class ListViewModel : INotifyPropertyChanged
     {
-
+        private GroupFilter gf = new GroupFilter();
         private StudentList _Items;
         public StudentList Items
         {
@@ -98,8 +100,8 @@ namespace ListViewTest
             }
         }
 
-        
-        
+
+
 
         private void ClickList()
         {
@@ -122,19 +124,126 @@ namespace ListViewTest
 
         private void ListDelete()
         {
-            try 
-            { 
-            Items.RemoveAt(Index);
+            try
+            {
+                Items.RemoveAt(Index);
             }
-            catch(ArgumentOutOfRangeException) 
-            { 
+            catch (ArgumentOutOfRangeException)
+            {
             }
+        }
+
+        public class GroupFilter
+        {
+            private List<Predicate<object>> _filters;
+            public Predicate<object> Filter { get; private set; }
+            public GroupFilter()
+            {
+                _filters = new List<Predicate<object>>();
+                Filter = InternalFilter;
+            }
+                private bool InternalFilter(object o)
+                {
+                foreach (var filter in _filters)
+                    {
+                        if(!filter(o))
+                        {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                
+                public void AddFilter(Predicate<object> filter)
+                {
+                    _filters.Add(filter);
+                }
+
+                public bool RemoveFilter(Predicate<object> filter)
+                {
+                if (_filters.Contains(filter))
+                {
+                    _filters.Remove(filter);
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+                }
+
         }
 
 
 
+        public ICommand manfilter => new RelayCommand<object>(param => Filter(1));
+        public ICommand womanfilter => new RelayCommand<object>(param => Filter(2));
+        public ICommand childfilter => new RelayCommand<object>(param => Filter(3));
+        public ICommand adultfilter => new RelayCommand<object>(param => Filter(4));
+        public ICommand leefilter => new RelayCommand<object>(param => Filter(5));
+        public ICommand kimfilter => new RelayCommand<object>(param => Filter(6));
+        private void Filter(int i)
+        {
+            CollectionView cv = (CollectionView)CollectionViewSource.GetDefaultView(_Items);
+            if (cv != null && i == 1 && gf.RemoveFilter(ManFilter))
+            {
+                gf.AddFilter(ManFilter);
+            }
+            else if (cv != null && i == 2 && gf.RemoveFilter(WomanFilter))
+            {
+                gf.AddFilter(WomanFilter);
+            }
+            else if (cv != null && i == 3 && gf.RemoveFilter(ChildFilter))
+            {
+                gf.AddFilter(ChildFilter);
+            }
+            else if (cv != null && i == 4 && gf.RemoveFilter(AdultFilter))
+            {
+                gf.AddFilter(AdultFilter);
+            }
+            else if (cv != null && i == 5 && gf.RemoveFilter(LeeFilter))
+            {
+                gf.AddFilter(LeeFilter);
+            }
+            else if (cv != null && i == 6 && gf.RemoveFilter(KimFilter))
+            {
+                gf.AddFilter(KimFilter);
+            }
+            cv.Filter = gf.Filter;
+        }
 
-        
+        public bool ManFilter(object item)
+        {
+            Student s = item as Student;
+            return s.Gender == Student.eGender.남자;
+        }
+        public bool WomanFilter(object item)
+        {
+            Student s = item as Student;
+            return s.Gender == Student.eGender.여자;
+        }
+
+        public bool ChildFilter(object item)
+        {
+            Student s = item as Student;
+            return s.Age < 20;
+        }
+        public bool AdultFilter(object item)
+        {
+            Student s = item as Student;
+            return s.Age >= 20;
+        }
+        public bool LeeFilter(object item)
+        {
+            Student s = item as Student;
+            return s.Name.StartsWith("이") ;
+        }
+        public bool KimFilter(object item)
+        {
+            Student s = item as Student;
+            return s.Name.StartsWith("김");
+        }
+
         public ICommand save_xml
         {
             get
@@ -264,7 +373,7 @@ namespace ListViewTest
                     _Items.AddList(stu);
                 }
                 OnPropertyChanged("Items");
-            }
+            }            
         }
 
 
