@@ -7,7 +7,6 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:local1="clr-namespace:ListViewTest.Properties"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="610" 
-        local:WindowCloser.EnableWindowClosing="True"
         >
 
     <i:Interaction.Triggers>
@@ -76,7 +75,6 @@
         <Button Content="New" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Bottom" Width="75" Command="{Binding commandNew}" Margin="0,0,80,0" Style="{DynamicResource RedButton}"/>
         <Button Content="Add" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Bottom" Width="75" Command="{Binding commandAdd}" Style="{DynamicResource BlueButton}"/>
         <Button Width="75" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Bottom" Command="{Binding xml}" Content="Load XML" Margin="0,5,160,0" Style="{DynamicResource GreenButton}" />
-        <Button Width="75" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Bottom" Command="{Binding CloseCommand}" Content="EXIT" Margin="0,0,240,0" Style="{DynamicResource GreenButton}" />
     </Grid>
 
 </Window>

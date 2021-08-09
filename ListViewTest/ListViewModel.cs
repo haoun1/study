@@ -7,13 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml;
 
 namespace ListViewTest
 {
 
-    public class ListViewModel : INotifyPropertyChanged, IcloseWindows
+    public class ListViewModel : INotifyPropertyChanged
     {
 
         private StudentList _Items;
@@ -134,15 +135,6 @@ namespace ListViewTest
 
 
         
-        //버튼과 연결하여 종료시키는 릴레이커맨드
-        private RelayCommand _closeCommand;
-        public RelayCommand CloseCommand => _closeCommand ?? (_closeCommand = new RelayCommand(CloseWindow));
-        void CloseWindow()//프로그램을 종료 할 때 발생하는 동작에 대해 정의합니다.
-        {         
-            Close?.Invoke();
-        }
-
-
         public ICommand save_xml
         {
             get
@@ -153,52 +145,55 @@ namespace ListViewTest
         private void save()
         {
             try {
-                MessageBox.Show("바탕화면에 XML로 저장완료!!");
-                XmlDocument xml = new XmlDocument();
-                XmlNode peoples = xml.CreateElement("peoples");
-                
-                if (Items != null)
+                if(System.Windows.MessageBox.Show("XML로 저장하시겠습니까?", "yes-no", MessageBoxButton.YesNo)==MessageBoxResult.Yes)
                 {
-                    for (int i = 0; i < Items.Count; i++)
-                    {
-                        XmlNode people = xml.CreateElement("people");
-                        XmlAttribute name = xml.CreateAttribute("name");
-                        XmlAttribute phone = xml.CreateAttribute("phone");
-                        XmlAttribute age = xml.CreateAttribute("age");
-                        XmlAttribute gender = xml.CreateAttribute("gender");
-
-                        name.Value = Items[i].Name;
-                        phone.Value = Items[i].Phone;
-                        age.Value = Items[i].Age.ToString();
-                        if(Items[i].Gender == Student.eGender.남자)
-                         gender.Value = "남자";
-                        else if (Items[i].Gender == Student.eGender.여자)
-                         gender.Value = "여자";
-                        people.Attributes.Append(name);
-                        people.Attributes.Append(phone);
-                        people.Attributes.Append(age);
-                        people.Attributes.Append(gender);
-
-                        peoples.AppendChild(people);
-                    }
-                    xml.AppendChild(peoples);
                     string path = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + @"\items.xml";
-                    xml.Save(path);
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.Filter = "XML file|*.xml";
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        
+                        path = saveFileDialog.FileName;
+                        XmlDocument xml = new XmlDocument();
+                        XmlNode peoples = xml.CreateElement("peoples");
+
+                        if (Items != null)
+                        {
+                            for (int i = 0; i < Items.Count; i++)
+                            {
+                                XmlNode people = xml.CreateElement("people");
+                                XmlAttribute name = xml.CreateAttribute("name");
+                                XmlAttribute phone = xml.CreateAttribute("phone");
+                                XmlAttribute age = xml.CreateAttribute("age");
+                                XmlAttribute gender = xml.CreateAttribute("gender");
+
+                                name.Value = Items[i].Name;
+                                phone.Value = Items[i].Phone;
+                                age.Value = Items[i].Age.ToString();
+                                if (Items[i].Gender == Student.eGender.남자)
+                                    gender.Value = "남자";
+                                else if (Items[i].Gender == Student.eGender.여자)
+                                    gender.Value = "여자";
+                                people.Attributes.Append(name);
+                                people.Attributes.Append(phone);
+                                people.Attributes.Append(age);
+                                people.Attributes.Append(gender);
+
+                                peoples.AppendChild(people);
+                            }
+                            xml.AppendChild(peoples);                            
+                            xml.Save(path);
+                        }
+                    }
+
                 }
+
             }
          catch(InvalidOperationException)
             {
              
             }
         }
-
-        public Action Close { get; set; }
-
-        public bool CanClose() //false이면 창을 닫을 수 없게 설정됩니다.
-        {            
-            return true;
-        }
-        //------------------------------------------
 
         public ListViewModel()
         {
@@ -239,8 +234,12 @@ namespace ListViewTest
         }
         private void xmlLoad()
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "XML file|*.xml";
             XmlDocument xml = new XmlDocument();
             string path = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + @"\items.xml";
+            if(openFileDialog.ShowDialog()==DialogResult.OK)
+                 path = openFileDialog.FileName;
             FileInfo fileInfo = new FileInfo(path);
             if (fileInfo.Exists)
             {
@@ -299,59 +298,4 @@ namespace ListViewTest
 
     }//viewmodel 끝
 
-    interface IcloseWindows
-    {
-        Action Close { get; set; }
-
-        bool CanClose();
-    }
-
-    //xaml에서 이 class의 EnableWindowClosing = true로 설정합니다.
-    public class WindowCloser
-    {
-        public static bool GetEnableWindowClosing(DependencyObject obj)
-        {
-            return (bool)obj.GetValue(EnableWindowClosingProperty);
-        }
-
-        public static void SetEnableWindowClosing(DependencyObject obj, bool value)
-        {
-            obj.SetValue(EnableWindowClosingProperty, value);
-        }
-        
-        // Using a DependencyProperty as the backing store for EnableWindowClosing.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty EnableWindowClosingProperty =
-            DependencyProperty.RegisterAttached("EnableWindowClosing", typeof(bool), typeof(WindowCloser), new PropertyMetadata(false, OnEnableWindowClosingChanged));
-        //이 프로퍼티의 이름은 EnableWindowClosing입니다. 타입은 bool이고 WindowCloser클래스에서 사용합니다. 이값의 기본값은 false이고, true로 변경되면 프로그램은 OnEnableWindowClosingChanged를 호출합니다.
-
-
-        private static void OnEnableWindowClosingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is Window window)
-            {
-                window.Loaded += (s1, e1) =>
-                {
-                    if (window.DataContext is IcloseWindows vm) // window.DataContext는 xaml에서 ListViewTest.ListViewModel로 지정 한 것인데, 이 ListViewModel이 IcloseWindows 인터페이스를 상속했는지, 아닌지 여부를 확인하는 코드
-                    {
-                        vm.Close += () =>
-                        {
-                            try
-                            {
-                                window.Close();
-                            }
-                            catch(InvalidOperationException)
-                            {
-
-                            }
-                        };
-
-                        window.Closing += (s2, e2) =>
-                        {
-                            e2.Cancel = !vm.CanClose(); //CanClose는 true를 반환하고, !true = false이므로 e2.Cancel=false가 되므로 
-                        };
-                    }
-                };
-            }
-        }
-    }//----------------------------------------------------------------------------------------------------------
 }
