@@ -19,7 +19,6 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="100"/>
-
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -35,8 +34,8 @@
         <Label Content="Phone:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2"/>
         <TextBox  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Width="100" Text="{Binding Phone}" Grid.Row="2"/>
         <Label Content="Gender:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3"/>
-        <RadioButton Grid.Row="3" Grid.Column="1" Margin="20,10,50,5" IsChecked="{Binding Path=Gender, Converter={StaticResource ResourceKey=BoolToEnumConverterKey}, ConverterParameter=남자}">남</RadioButton>
-        <RadioButton Grid.Row="3" Grid.Column="1" Margin="60,10,10,5" IsChecked="{Binding Path=Gender, Converter={StaticResource ResourceKey=BoolToEnumConverterKey}, ConverterParameter=여자}">여</RadioButton>
+        <RadioButton Grid.Row="3" Grid.Column="1" Margin="20,10,50,5" IsChecked="{Binding Path=Gender, Converter={StaticResource ResourceKey=BoolToEnumConverterKey}, ConverterParameter=남자, Mode=TwoWay}">남</RadioButton>
+        <RadioButton Grid.Row="3" Grid.Column="1" Margin="60,10,10,5" IsChecked="{Binding Path=Gender, Converter={StaticResource ResourceKey=BoolToEnumConverterKey}, ConverterParameter=여자 , Mode=TwoWay}">여</RadioButton>
         <Button Content="완료"  Grid.Column="1" Background='Aqua' Click="Btn_click" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4"/>
     </Grid>
     

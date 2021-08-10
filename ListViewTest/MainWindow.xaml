@@ -19,7 +19,7 @@
         <local:ListViewModel/>
     </Window.DataContext>
 
-    <Grid Margin="0,0,2,0">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="*"/>
@@ -29,7 +29,15 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <Border Grid.Column="1" BorderThickness="1" BorderBrush="Black"/>
+        <Border Grid.Column="0" BorderThickness="1" BorderBrush="Black"/>
+        <Border Grid.Column="0" Grid.Row="1" BorderThickness="1" BorderBrush="Black"/>
+        <Border Grid.Column="1" Grid.Row="1" BorderThickness="1" BorderBrush="Black"/>
+        <Border Grid.Column="0" Grid.Row="2" BorderThickness="1" BorderBrush="Black"/>
+        <Border Grid.Column="1" Grid.Row="2" BorderThickness="1" BorderBrush="Black"/>
+
         <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="ListView DataBinding Example" Padding="10"/>
+        <TextBlock HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Center" Text="ListView Filter" Padding="10"/>
 
         <ListView ItemsSource="{Binding Items}" SelectedIndex="{Binding Index}" SelectedItem="{Binding Selected}" Name="list_view" Grid.Row="1" Grid.Column="0" Margin="10" Background="AliceBlue">
             <i:Interaction.Triggers>
@@ -66,7 +74,8 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                </GridView> <!--컬럼 끝 --> 
+                </GridView>
+                <!--컬럼 끝 --> 
             </ListView.View>
             <ListView.Resources>
                 <Style TargetType="ListViewItem">
